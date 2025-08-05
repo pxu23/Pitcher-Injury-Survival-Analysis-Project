@@ -1,0 +1,391 @@
+Processing age feature
+Overall
+Feature: age
+Minimum for age: 20.23
+10th Percentile for age: 25.05
+25th Percentile for age: 26.7
+50th Percentile for age: 28.9
+75th Percentile for age: 31.89
+90th Percentile for age: 34.58
+Maximum for age: 136.46
+
+Injured
+Feature: age
+Minimum for age: 22.63
+10th Percentile for age: 25.43
+25th Percentile for age: 27.04
+50th Percentile for age: 29.45
+75th Percentile for age: 32.56
+90th Percentile for age: 35.77
+Maximum for age: 41.76
+
+Censored
+Feature: age
+Minimum for age: 20.23
+10th Percentile for age: 24.83
+25th Percentile for age: 26.36
+50th Percentile for age: 28.54
+75th Percentile for age: 31.4
+90th Percentile for age: 33.68
+Maximum for age: 136.46
+
+
+
+Processing avg_release_speed feature
+Overall
+Feature: avg_release_speed
+Minimum for avg_release_speed: 36.07
+10th Percentile for avg_release_speed: 83.79
+25th Percentile for avg_release_speed: 86.74
+50th Percentile for avg_release_speed: 88.83
+75th Percentile for avg_release_speed: 90.63
+90th Percentile for avg_release_speed: 92.28
+Maximum for avg_release_speed: 100.64
+
+Injured
+Feature: avg_release_speed
+Minimum for avg_release_speed: 46.06
+10th Percentile for avg_release_speed: 83.75
+25th Percentile for avg_release_speed: 86.65
+50th Percentile for avg_release_speed: 88.62
+75th Percentile for avg_release_speed: 90.64
+90th Percentile for avg_release_speed: 92.19
+Maximum for avg_release_speed: 100.64
+
+Censored
+Feature: avg_release_speed
+Minimum for avg_release_speed: 36.07
+10th Percentile for avg_release_speed: 83.79
+25th Percentile for avg_release_speed: 86.86
+50th Percentile for avg_release_speed: 88.85
+75th Percentile for avg_release_speed: 90.61
+90th Percentile for avg_release_speed: 92.31
+Maximum for avg_release_speed: 96.88
+
+
+
+Processing avg_release_spin_rate feature
+Overall
+Feature: avg_release_spin_rate
+Minimum for avg_release_spin_rate: 950.89
+10th Percentile for avg_release_spin_rate: 1930.87
+25th Percentile for avg_release_spin_rate: 2097.2
+50th Percentile for avg_release_spin_rate: 2235.98
+75th Percentile for avg_release_spin_rate: 2369.6
+90th Percentile for avg_release_spin_rate: 2502.72
+Maximum for avg_release_spin_rate: 2843.48
+
+Injured
+Feature: avg_release_spin_rate
+Minimum for avg_release_spin_rate: 994.57
+10th Percentile for avg_release_spin_rate: 1932.32
+25th Percentile for avg_release_spin_rate: 2105.27
+50th Percentile for avg_release_spin_rate: 2252.41
+75th Percentile for avg_release_spin_rate: 2368.1
+90th Percentile for avg_release_spin_rate: 2516.54
+Maximum for avg_release_spin_rate: 2824.55
+
+Censored
+Feature: avg_release_spin_rate
+Minimum for avg_release_spin_rate: 950.89
+10th Percentile for avg_release_spin_rate: 1927.03
+25th Percentile for avg_release_spin_rate: 2095.33
+50th Percentile for avg_release_spin_rate: 2229.67
+75th Percentile for avg_release_spin_rate: 2371.08
+90th Percentile for avg_release_spin_rate: 2492.66
+Maximum for avg_release_spin_rate: 2843.48
+
+
+
+Processing num_games feature
+Overall
+Feature: num_games
+Minimum for num_games: 1
+10th Percentile for num_games: 2.0
+25th Percentile for num_games: 4.0
+50th Percentile for num_games: 12.0
+75th Percentile for num_games: 27.25
+90th Percentile for num_games: 49.0
+Maximum for num_games: 87
+
+Injured
+Feature: num_games
+Minimum for num_games: 1
+10th Percentile for num_games: 2.0
+25th Percentile for num_games: 5.0
+50th Percentile for num_games: 11.0
+75th Percentile for num_games: 23.0
+90th Percentile for num_games: 35.8
+Maximum for num_games: 70
+
+Censored
+Feature: num_games
+Minimum for num_games: 1
+10th Percentile for num_games: 1.8
+25th Percentile for num_games: 3.0
+50th Percentile for num_games: 12.0
+75th Percentile for num_games: 31.0
+90th Percentile for num_games: 64.0
+Maximum for num_games: 87
+
+
+
+Processing avg_effective_speed feature
+Overall
+Feature: avg_effective_speed
+Minimum for avg_effective_speed: 33.42
+10th Percentile for avg_effective_speed: 83.52
+25th Percentile for avg_effective_speed: 86.89
+50th Percentile for avg_effective_speed: 88.97
+75th Percentile for avg_effective_speed: 90.83
+90th Percentile for avg_effective_speed: 92.71
+Maximum for avg_effective_speed: 102.28
+
+Injured
+Feature: avg_effective_speed
+Minimum for avg_effective_speed: 44.59
+10th Percentile for avg_effective_speed: 83.72
+25th Percentile for avg_effective_speed: 86.85
+50th Percentile for avg_effective_speed: 88.72
+75th Percentile for avg_effective_speed: 90.83
+90th Percentile for avg_effective_speed: 92.62
+Maximum for avg_effective_speed: 102.28
+
+Censored
+Feature: avg_effective_speed
+Minimum for avg_effective_speed: 33.42
+10th Percentile for avg_effective_speed: 83.49
+25th Percentile for avg_effective_speed: 86.9
+50th Percentile for avg_effective_speed: 89.08
+75th Percentile for avg_effective_speed: 90.82
+90th Percentile for avg_effective_speed: 92.75
+Maximum for avg_effective_speed: 97.54
+
+
+
+Processing avg_vx0 feature
+Overall
+Feature: avg_vx0
+Minimum for avg_vx0: -12.01
+10th Percentile for avg_vx0: -6.27
+25th Percentile for avg_vx0: 1.0
+50th Percentile for avg_vx0: 4.46
+75th Percentile for avg_vx0: 6.17
+90th Percentile for avg_vx0: 7.53
+Maximum for avg_vx0: 11.97
+
+Injured
+Feature: avg_vx0
+Minimum for avg_vx0: -12.01
+10th Percentile for avg_vx0: -6.02
+25th Percentile for avg_vx0: 1.24
+50th Percentile for avg_vx0: 4.47
+75th Percentile for avg_vx0: 6.1
+90th Percentile for avg_vx0: 7.63
+Maximum for avg_vx0: 10.5
+
+Censored
+Feature: avg_vx0
+Minimum for avg_vx0: -11.62
+10th Percentile for avg_vx0: -6.29
+25th Percentile for avg_vx0: 0.88
+50th Percentile for avg_vx0: 4.46
+75th Percentile for avg_vx0: 6.18
+90th Percentile for avg_vx0: 7.49
+Maximum for avg_vx0: 11.97
+
+
+
+Processing avg_vy0 feature
+Overall
+Feature: avg_vy0
+Minimum for avg_vy0: -146.22
+10th Percentile for avg_vy0: -134.22
+25th Percentile for avg_vy0: -131.78
+50th Percentile for avg_vy0: -129.18
+75th Percentile for avg_vy0: -126.2
+90th Percentile for avg_vy0: -121.85
+Maximum for avg_vy0: -50.85
+
+Injured
+Feature: avg_vy0
+Minimum for avg_vy0: -146.22
+10th Percentile for avg_vy0: -134.08
+25th Percentile for avg_vy0: -131.73
+50th Percentile for avg_vy0: -128.76
+75th Percentile for avg_vy0: -126.13
+90th Percentile for avg_vy0: -121.84
+Maximum for avg_vy0: -66.57
+
+Censored
+Feature: avg_vy0
+Minimum for avg_vy0: -140.81
+10th Percentile for avg_vy0: -134.23
+25th Percentile for avg_vy0: -131.78
+50th Percentile for avg_vy0: -129.28
+75th Percentile for avg_vy0: -126.41
+90th Percentile for avg_vy0: -121.86
+Maximum for avg_vy0: -50.85
+
+
+
+Processing avg_vz0 feature
+Overall
+Feature: avg_vz0
+Minimum for avg_vz0: -7.67
+10th Percentile for avg_vz0: -5.62
+25th Percentile for avg_vz0: -4.8
+50th Percentile for avg_vz0: -3.83
+75th Percentile for avg_vz0: -2.55
+90th Percentile for avg_vz0: -0.91
+Maximum for avg_vz0: 10.51
+
+Injured
+Feature: avg_vz0
+Minimum for avg_vz0: -7.67
+10th Percentile for avg_vz0: -5.67
+25th Percentile for avg_vz0: -4.94
+50th Percentile for avg_vz0: -3.76
+75th Percentile for avg_vz0: -2.65
+90th Percentile for avg_vz0: -1.19
+Maximum for avg_vz0: 7.98
+
+Censored
+Feature: avg_vz0
+Minimum for avg_vz0: -7.65
+10th Percentile for avg_vz0: -5.54
+25th Percentile for avg_vz0: -4.75
+50th Percentile for avg_vz0: -3.86
+75th Percentile for avg_vz0: -2.46
+90th Percentile for avg_vz0: -0.81
+Maximum for avg_vz0: 10.51
+
+
+
+Processing height feature
+Overall
+Feature: height
+Minimum for height: 67.0
+10th Percentile for height: 72.0
+25th Percentile for height: 73.0
+50th Percentile for height: 75.0
+75th Percentile for height: 76.0
+90th Percentile for height: 77.0
+Maximum for height: 83.0
+
+Injured
+Feature: height
+Minimum for height: 67.0
+10th Percentile for height: 72.0
+25th Percentile for height: 74.0
+50th Percentile for height: 75.0
+75th Percentile for height: 76.0
+90th Percentile for height: 77.0
+Maximum for height: 80.0
+
+Censored
+Feature: height
+Minimum for height: 67.0
+10th Percentile for height: 72.0
+25th Percentile for height: 73.0
+50th Percentile for height: 75.0
+75th Percentile for height: 76.0
+90th Percentile for height: 77.0
+Maximum for height: 83.0
+
+
+
+Processing weight feature
+Overall
+Feature: weight
+Minimum for weight: 155.0
+10th Percentile for weight: 185.0
+25th Percentile for weight: 199.0
+50th Percentile for weight: 211.0
+75th Percentile for weight: 225.0
+90th Percentile for weight: 235.0
+Maximum for weight: 285.0
+
+Injured
+Feature: weight
+Minimum for weight: 155.0
+10th Percentile for weight: 190.0
+25th Percentile for weight: 200.0
+50th Percentile for weight: 212.0
+75th Percentile for weight: 225.0
+90th Percentile for weight: 232.8
+Maximum for weight: 265.0
+
+Censored
+Feature: weight
+Minimum for weight: 160.0
+10th Percentile for weight: 183.8
+25th Percentile for weight: 196.0
+50th Percentile for weight: 210.0
+75th Percentile for weight: 225.0
+90th Percentile for weight: 238.2
+Maximum for weight: 285.0
+Processing recurrence feature
+Overall
+recurrence
+0    745
+1    182
+2     87
+3     15
+5      2
+4      1
+Name: count, dtype: int64
+
+Injured
+recurrence
+0    272
+1     79
+2     27
+3      4
+4      1
+Name: count, dtype: int64
+
+Censored
+recurrence
+0    473
+1    103
+2     60
+3     11
+5      2
+Name: count, dtype: int64
+
+
+
+Processing bats feature
+Overall
+bats
+0.0    1032
+Name: count, dtype: int64
+
+Injured
+bats
+0.0    383
+Name: count, dtype: int64
+
+Censored
+bats
+0.0    649
+Name: count, dtype: int64
+
+
+
+Processing throws feature
+Overall
+throws
+0.0    1032
+Name: count, dtype: int64
+
+Injured
+throws
+0.0    383
+Name: count, dtype: int64
+
+Censored
+throws
+0.0    649
+Name: count, dtype: int64
