@@ -27,6 +27,13 @@ for (train_season, evaluation_season) in train_evaluation_seasons:
         num_time_points =  min(T_train.max(), T_test.max()) - max(T_train.min(), T_test.min())
         time_points = np.linspace(max(T_train.min(), T_test.min()), min(T_train.max(), T_test.max()),
                                   num_time_points, endpoint=False)
+
+        survival_df_time_varying_game_level = pd.read_csv(f"../Survival-Dataframes/Time-Varying/"
+                                                          f"survival_df_time_varying_game_level_{evaluation_season}_processed.csv")
+        # STEP 2: Get the average number of pitches in each game for season
+        avg_pitches_per_game = survival_df_time_varying_game_level['num_pitches'].mean()
+        num_pitches = avg_pitches_per_game * time_points
+
         survival_probabilities = np.loadtxt(f"../Survival_Probabilities/"
                                             f"{model_name}_survival_train_{train_season}_eval_{evaluation_season}.txt")
 
@@ -48,8 +55,10 @@ for (train_season, evaluation_season) in train_evaluation_seasons:
         overall_survival_group2_age = survival_probabilities_group2_age.mean(axis=0)
 
         plt.figure()
-        plt.step(time_points, overall_survival_group1_age, where='post', label=f"Age < {round(threshold_age, 2)}")
-        plt.step(time_points, overall_survival_group2_age, where='post', label=f"Age >= {round(threshold_age, 2)}")
+        plt.step(num_pitches, overall_survival_group1_age, where='post', label=f"Age < {round(threshold_age, 2)}")
+        plt.step(num_pitches, overall_survival_group2_age, where='post', label=f"Age >= {round(threshold_age, 2)}")
+        plt.xlabel("Number of Pitches")
+        plt.ylabel("Survival Probability")
         plt.legend()
         if not os.path.exists(f"Subgroup_Survival_Curves/"
                     f"{model_name}_survival_age_train_{train_season}_evaluate_{evaluation_season}.png"):
@@ -71,8 +80,10 @@ for (train_season, evaluation_season) in train_evaluation_seasons:
         overall_survival_group2_no_previous_injury = survival_probabilities_group2_no_previous_injury.mean(axis=0)
 
         plt.figure()
-        plt.step(time_points, overall_survival_group1_previous_injury, label="Previous Injury")
-        plt.step(time_points, overall_survival_group2_no_previous_injury, label="No Previous Injury")
+        plt.step(num_pitches, overall_survival_group1_previous_injury, label="Previous Injury")
+        plt.step(num_pitches, overall_survival_group2_no_previous_injury, label="No Previous Injury")
+        plt.xlabel("Number of Pitches")
+        plt.ylabel("Survival Probability")
         plt.legend()
         if not os.path.exists(f"Subgroup_Survival_Curves/"
                     f"{model_name}_survival_previous_injury_train_{train_season}_evaluate_{evaluation_season}.png"):
@@ -96,10 +107,12 @@ for (train_season, evaluation_season) in train_evaluation_seasons:
         overall_survival_group1_velocity = survival_probabilities_group1_velocity.mean(axis=0)
         overall_survival_group2_velocity = survival_probabilities_group2_velocity.mean(axis=0)
         plt.figure()
-        plt.step(time_points, overall_survival_group1_velocity,
+        plt.step(num_pitches, overall_survival_group1_velocity,
                  label=f"Average Velocity Below {round(threshold_velocity,2)}")
-        plt.step(time_points, overall_survival_group2_velocity,
+        plt.step(num_pitches, overall_survival_group2_velocity,
                  label=f"Average Velocity At Least {round(threshold_velocity,2)}")
+        plt.xlabel("Number of Pitches")
+        plt.ylabel("Survival Probability")
         plt.legend()
         if not os.path.exists(f"Subgroup_Survival_Curves/"
                     f"{model_name}_survival_velocity_train_{train_season}_evaluate_{evaluation_season}.png"):
@@ -129,10 +142,12 @@ for (train_season, evaluation_season) in train_evaluation_seasons:
         overall_survival_group1 = survival_probabilities_group1.mean(axis=0)
         overall_survival_group2 = survival_probabilities_group2.mean(axis=0)
         plt.figure()
-        plt.step(time_points, overall_survival_group1,
+        plt.step(num_pitches, overall_survival_group1,
                  label=f"Older, Faster, and Previously Injured")
-        plt.step(time_points, overall_survival_group2,
+        plt.step(num_pitches, overall_survival_group2,
                  label=f"Younger, Slower, and Not Previously Injured")
+        plt.xlabel("Number of Pitches")
+        plt.ylabel("Survival Probability")
         plt.legend()
         if not os.path.exists(f"Subgroup_Survival_Curves/"
                     f"{model_name}_survival_more_features_train_{train_season}_evaluate_{evaluation_season}.png"):

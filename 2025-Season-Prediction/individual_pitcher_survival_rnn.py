@@ -1,6 +1,8 @@
 # use the SurvivalRNN model to predict the survival curves for individual pitchers for the 2025 season
 ## Survival curve predictions for individual pitchers
 ## the list of pitchers
+import sys
+
 import numpy as np
 import pandas as pd
 import torch
@@ -22,12 +24,12 @@ warnings.filterwarnings("ignore")
 train_season = "2023"
 
 # read in the time invariant survival data
-survival_df_time_invariant_train_season = pd.read_csv(f"../Pitcher-Injury-Survival-Analysis/Survival-Dataframes/Time-Invariant/"
+survival_df_time_invariant_train_season = pd.read_csv(f"../Survival-Dataframes/Time-Invariant/"
                                                       f"survival_df_time_invariant_game_{train_season}_level_processed.csv")
 
 survival_df_time_invariant_train_season.drop(columns=['player_name', 'bats', 'throws'], inplace=True)
 
-pitcher_list = [ ("Cade", "Povich"), ("Chris", "Sale"), ("Cole", "Ragans"),                ("Corbin", "Burnes"), ("Framber", "Valdez"), ("Gerrit", "Cole"), ("Jack", "Flaherty"),
+pitcher_list = [("Blake", "Snell"), ("Cade", "Povich"), ("Chris", "Sale"), ("Cole", "Ragans"),                ("Corbin", "Burnes"), ("Framber", "Valdez"), ("Gerrit", "Cole"), ("Jack", "Flaherty"),
                 ("Jacob", "deGrom"), ("Logan", "Gilbert"), ("Logan", "Webb"),
                 ("Max", "Fried"), ("Spencer", "Strider"), ("Tarik", "Skubal"),
                 ("Yoshinobu", "Yamamoto"), ("Zack", "Wheeler"), ("Paul", "Skenes"), ("Kevin", "Gausman"),
@@ -38,12 +40,21 @@ for first_name, last_name in pitcher_list:
 
     plt.figure(figsize=(8,6))
 
+    # STEP 1: REad in the game-level characteristics data for 2025
+    avg_pitch_characteristics_game_level_2025 = pd.read_csv(
+        "../Game-Level-Pitch-Characteristics-Statcast/avg_pitch_characteristics_game_level_2025.csv")
+
+    # STEP 2: Get the average number of pitches in each game for 2025
+    avg_pitches_per_game = avg_pitch_characteristics_game_level_2025['num_pitches'].mean()
+    print(avg_pitches_per_game)
+    sys.exit()
+
     # STEP 1: prepare the time varying input for the RNN model for the pitcher
     X_pitcher, T_pitcher, E_pitcher = prepare_time_varying_pitcher_input_for_rnn(player_name)
-    print(X_pitcher.shape)
+
+    
     # STEP 2: Get the trained RNN model
-    # STEP 1: load in the saved model and loss history
-    model_file = f"SurvivalRNN/RNN_Models/survivalrnn_2023_2024_w1_1_w2_4.pt"
+    model_file = f"../SurvivalRNN/RNN_Models/survivalrnn_2023_2024_w1_1_w2_4.pt"
     rnn_model = torch.load(model_file)
 
     # STEP 3: Get the predicted risk scores for the RNN model for that pitcher for each recurrence
@@ -72,7 +83,8 @@ for first_name, last_name in pitcher_list:
     plt.figure(figsize=(8,6))
     num_time_points = T_train.max() - T_train.min()
     times = np.linspace(T_train.min(), T_train.max(), num_time_points, endpoint=False)
-    plt.step(times, S_x_t_overall, where="post", label=f"SurvivalRNN")
+    num_pitches = avg_pitches_per_game * times
+    plt.step(num_pitches, S_x_t_overall, where="post", label=f"SurvivalRNN")
 
     # STEP 7: Compare the RNN survival curve with that of the baseline models
     # get the row in the survival dataframe for the pitcher
@@ -96,7 +108,7 @@ for first_name, last_name in pitcher_list:
         pred_survs = model_survival.T.values
         s_model = pred_survs[0]
         s_ensemble[i] = s_model
-        plt.step(times, s_model, where="post", label=f"{model_name}")
+        plt.step(num_pitches, s_model, where="post", label=f"{model_name}")
         i += 1
 
     # the X_train for fitting the random survival forests
@@ -117,11 +129,11 @@ for first_name, last_name in pitcher_list:
         pred_surv = np.asarray([fn(times) for fn in model_survival])
         s_model = pred_surv[0]
         s_ensemble[i] = s_model
-        plt.step(times, s_model, where="post", label=f"{model_name}")
+        plt.step(num_pitches, s_model, where="post", label=f"{model_name}")
         i += 1
     s_ensemble[4] = S_x_t_overall
     plt.ylabel("Survival probability")
-    plt.xlabel("Number of Games")
+    plt.xlabel("Number of Pitches")
     plt.title(f"{first_name} {last_name}")
     plt.legend()
     plt.savefig(f"Survival_Curves_Individual_Pitcher/survival_curve_pitcher_{player_name}_2025.png",
@@ -134,8 +146,10 @@ for first_name, last_name in pitcher_list:
     std_ensemble = np.std(s_ensemble, axis=0)
 
     plt.figure(figsize=(8, 6))
-    plt.step(time_points, mean_ensemble, where="post")
-    plt.fill_between(time_points, mean_ensemble - std_ensemble, mean_ensemble + std_ensemble, alpha=0.3)
+    plt.step(num_pitches, mean_ensemble, where="post")
+    plt.fill_between(num_pitches, mean_ensemble - std_ensemble, mean_ensemble + std_ensemble, alpha=0.3)
+    plt.ylabel("Survival probability")
+    plt.xlabel("Number of Pitches")
     plt.title(f"{first_name} {last_name}")
     plt.savefig(f"Survival_Curves_Individual_Pitcher/mean_std_{player_name}_2025.png",
                 bbox_inches="tight")
