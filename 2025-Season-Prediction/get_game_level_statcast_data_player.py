@@ -1,7 +1,6 @@
 """
     Get the game-level pitch features for the statcast data for the season.
 """
-import os
 import pandas as pd
 import warnings
 warnings.filterwarnings('ignore')
@@ -9,12 +8,9 @@ def get_game_level_pitch_features_for_player(player_name):
     """
         For each of the players, get the average pitch characteristics across all
         pitches in each game for the season. in addition to the 90th percentile and the 10th percentile
-        :param season_year: The season year
+        :param player_name: The player name to acquire the game-level Statcast data for
     """
     # statcast pitches for the season
-    if not os.path.exists(f"Pitch_Data_2025_Pitchers/{player_name}_pitches.csv"):
-        return
-
     statcast_pitches_player = pd.read_csv(f"Pitch_Data_2025_Pitchers/{player_name}_pitches.csv")
 
     # groupby by player_name and game_date
@@ -47,18 +43,21 @@ def get_game_level_pitch_features_for_player(player_name):
     # sort the values by player name and then game_date
     game_level_avg_pitch_features_season.sort_values(by=['player_name', 'game_date'], inplace=True)
 
+    # Resets the index
     game_level_avg_pitch_features_season.reset_index(inplace=True)
 
+    # Save the output to csv file
     game_level_avg_pitch_features_season.to_csv(f"Game_Level_Pitch_Data_2025_Pitchers/"
                                                 f"avg_pitch_characteristics_game_level_{player_name}.csv", index=False)
 
 if __name__ == "__main__":
+    # Get the game-level survival dataframe for top 2025 MLB pitcher
     pitcher_list = [("Blake", "Snell"), ("Cade", "Povich"), ("Chris", "Sale"), ("Cole", "Ragans"),
                     ("Corbin", "Burnes"), ("Framber", "Valdez"), ("Gerrit", "Cole"), ("Jack", "Flaherty"),
                     ("Jacob", "deGrom"), ("Logan", "Gilbert"), ("Logan", "Webb"),
                     ("Max", "Fried"), ("Spencer", "Strider"), ("Tarik", "Skubal"),
                     ("Yoshinobu", "Yamamoto"), ("Zack", "Wheeler"), ("Paul", "Skenes"),
-                    ("Kevin", "Gausman"), ("Shane", "McClanahan")]
+                    ("Kevin", "Gausman"), ("Shane", "McClanahan"), ("Pablo", "Lopez")]
 
     for first_name, last_name in pitcher_list:
         player_name = first_name.lower() + "_" + last_name.lower()

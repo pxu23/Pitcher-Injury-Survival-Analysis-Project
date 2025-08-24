@@ -1,7 +1,6 @@
 import numpy as np
 from torch.utils.data import Dataset
 
-
 class PitcherInjuryDataset(Dataset):
     """
     Synthetic dataset for pitcher injury prediction.

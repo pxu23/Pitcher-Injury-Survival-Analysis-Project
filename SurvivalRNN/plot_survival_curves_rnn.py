@@ -71,20 +71,20 @@ for training_season,evaluation_season in train_evaluate_seasons:
     rnn_survival = np.loadtxt(f"../Survival_Probabilities/survivalrnn_all_individual_survival_{training_season}_{evaluation_season}_w1_1_w2_4.txt")
     overall_survival_rnn = rnn_survival.mean(axis=0)
     #plt.step(time_points, overall_survival_rnn, where="post", label="SurvivalRNN")
+    overall_survival_rnn = overall_survival_rnn[:len(num_pitches)]
     plt.step(num_pitches, overall_survival_rnn, where="post", label="Survival RNN")
     plt.xlabel("Number of Pitches")
     plt.ylabel("Survival Probability")
+
+
+    # Time-Varying RNN (Discrete Survival Curve)
+    #rnn_time_varying_survival = np.loadtxt(f"../Time-Invariant-RNN/Time-Invariant-RNN_Survival_Probability/"
+    #                                         f"survivalrnn_all_individual_survival_{training_season}_{evaluation_season}_w1_1_w2_4"
+    #                                         f"_time_invariant.txt")
+    #overall_survival_rnn_time_varying = rnn_time_varying_survival.mean(axis=0)
+    #plt.step(num_pitches, overall_survival_rnn_time_varying, where="post", label="Survival RNN Time-Invariant")
+    #plt.xlabel("Number of Pitches")
+    #plt.ylabel("Survival Probability")
     plt.legend()
     plt.savefig(f"../Survival_Curves/survival_curve_overall_training_{training_season}_"
                 f"evaluation_{evaluation_season}.png",bbox_inches='tight')
-
-    # RNN (Cox Loss survival curves)
-    rnn_cox_survival = np.loadtxt(f"../Survival_Probabilities/"
-                                  f"survival_prob_rnn_cox_loss_{training_season}_{evaluation_season}.txt")
-    overall_survival_rnn_cox = rnn_cox_survival.mean(axis=0)
-    plt.step(time_points, overall_survival_rnn_cox, where="post", label="SurvivalRNN (Cox)")
-    plt.xlabel("Time")
-    plt.ylabel("Survival Probability")
-    plt.legend()
-    plt.savefig(f"../Survival_Curves/survival_curve_overall_training_{training_season}_"
-                f"evaluation_{evaluation_season}_rnn_cox.png", bbox_inches='tight')

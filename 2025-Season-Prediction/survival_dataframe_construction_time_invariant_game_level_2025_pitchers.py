@@ -15,8 +15,7 @@ def create_time_invariant_survival_dataframe(first_name, last_name):
 
         # check if there exists a column where all the games are null
         time_varying_entry_for_instance = survival_df_time_varying_game_level_processed[
-            (survival_df_time_varying_game_level_processed['player_name'] == row[1].player_name)
-            & (survival_df_time_varying_game_level_processed['recurrence'] == row[1].recurrence)
+            survival_df_time_varying_game_level_processed['recurrence'] == row[1].recurrence
         ]
 
         event = time_varying_entry_for_instance['event'].iloc[-1]
@@ -33,18 +32,25 @@ def create_time_invariant_survival_dataframe(first_name, last_name):
 
         # average age
         avg_age = time_varying_entry_for_instance['Age'].mean()
+        # average height
         avg_height = time_varying_entry_for_instance['Height'].mean()
+        # weight
         avg_weight = time_varying_entry_for_instance['Weight'].mean()
+        # batting hand
         avg_bats = time_varying_entry_for_instance['Batting Hand'].mean()
+        # throwing hand
         avg_throws = time_varying_entry_for_instance['Throwing Hand'].mean()
+
+        # average number of pitches
+        avg_pitches = time_varying_entry_for_instance['num_pitches'].mean()
 
         row_dict = {"player_name": row[1].player_name,
                     "avg_release_spin_rate": avg_pitch_release_spin_rate,
                     "avg_release_speed": avg_pitch_release_speed,
                     "avg_effective_speed": avg_effective_speed,
                     "avg_vx0": avg_vx0, "avg_vy0": avg_vy0,
-                    "avg_vz0": avg_vz0, "age": avg_age,
-                    "Height": avg_height, "Weight": avg_weight,
+                    "avg_vz0": avg_vz0, "avg_pitches": avg_pitches,
+                    "age": avg_age, "Height": avg_height, "Weight": avg_weight,
                     "Batting Hand": avg_bats, "Throwing Hand": avg_throws,
                     "recurrence": row[1].recurrence,
                     "event": event,
@@ -68,5 +74,6 @@ if __name__ == '__main__':
                     ("Max", "Fried"), ("Spencer", "Strider"), ("Tarik", "Skubal"),
                     ("Yoshinobu", "Yamamoto"), ("Zack", "Wheeler"), ("Paul", "Skenes"),
                     ("Kevin", "Gausman"), ("Shane", "McClanahan")]
+    pitcher_list = [("Pablo", "Lopez")]
     for first_name, last_name in pitcher_list:
         create_time_invariant_survival_dataframe(first_name, last_name)

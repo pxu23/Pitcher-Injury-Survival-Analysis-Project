@@ -2,17 +2,20 @@ import numpy as np
 
 def compute_survival_function_pitcher(T_test, T_train, E_train,
                                       train_predictions, test_predictions):
+    """
+        Computes the survival function prediction for the RNN model
+        :param T_test: the event times for the test dataset
+        :param T_train: the train times for the test dataset
+        :param E_train: the events for the train dataset
+        :param train_predictions: the predictions for the train dataset
+        :param test_predictions: the predictions for the test dataset
+    """
+
     # STEP 1: Get the time varying inputs for the test instances (can we skip these)
     #X_test, T_test, E_test = prepare_time_varying_input_for_rnn(first_name, last_name)
-    print(T_test.min())
-    print(T_test.max())
-    print(T_train.min())
-    print(T_train.max())
+
     # STEP 2: Get the predicted train risk scores
     train_risk_scores = train_predictions.cpu().detach().numpy()
-
-    # normalize the risk scores to ensure numerical stability
-    #train_risk_scores = (train_risk_scores -  train_risk_scores.mean()) / np.std(train_risk_scores)
 
     # STEP 3: get the predicted pitcher risk scores
     pitcher_risk_scores = test_predictions.cpu().detach().numpy()
@@ -20,11 +23,12 @@ def compute_survival_function_pitcher(T_test, T_train, E_train,
     T_train = T_train.cpu().numpy()
     E_train = E_train.cpu().numpy()
 
-    T_test = T_test.cpu().numpy()
+    # Use the Breslow's function estimation based on the training data
 
     # Sort training data by event time
     sorted_indices = np.argsort(T_train)
 
+    #
     event_times_sorted = T_train[sorted_indices]
     censoring_sorted = E_train[sorted_indices]
 
@@ -44,7 +48,7 @@ def compute_survival_function_pitcher(T_test, T_train, E_train,
     # Compute cumulative sum
     H_0 = np.cumsum(H_0)
 
-    # Compute baseline survival function
+    # Compute baseline survival function S_0 from H_0
     S_0 = np.exp(-H_0)
 
     def make_step_function(times, values):

@@ -1,2 +1,2 @@
-player_name,avg_release_spin_rate,avg_release_speed,avg_effective_speed,avg_vx0,avg_vy0,avg_vz0,age,Height,Weight,Batting Hand,Throwing Hand,recurrence,event,num_games
-"McClanahan, Shane",2077.325,90.46499999999999,90.97499999999998,-3.8431455176954636,-131.63036913741217,-5.579537667884877,28.0,75.0,210.0,0.0,0.0,0,1.0,3
+player_name,avg_release_spin_rate,avg_release_speed,avg_effective_speed,avg_vx0,avg_vy0,avg_vz0,avg_pitches,age,Height,Weight,Batting Hand,Throwing Hand,recurrence,event,num_games
+"McClanahan, Shane",2077.325,90.46499999999999,90.97499999999998,-3.8431455176954636,-131.63036913741217,-5.579537667884877,38.333333333333336,28.0,75.0,210.0,0.0,0.0,0,1.0,3

@@ -20,11 +20,16 @@ def get_demographic_information(player):
     demographic_feature_player = people_df.loc[(people_df['nameFirst'] == first_name) &
                                            (people_df['nameLast'] == last_name)]
 
-    demographic_feature_player_dict = demographic_feature_player[['weight', 'height', 'bats', 'throws', 'birthYear',
+    # gets the weight, height, batting hand, throwing hand, birth year, birth month, and birth date
+    # for the pitcher
+    demographic_feature_player_dict = demographic_feature_player[['weight', 'height', 'bats',
+                                                                  'throws', 'birthYear',
                                                                   'birthMonth', 'birthDay']]
+    # if not unique record (no record or multiple records), skip
     if demographic_feature_player_dict.shape[0] != 1:
         return None
 
+    # get the player name column for later joins with pitch data
     demographic_feature_player_dict["player_name"] = player
 
     return demographic_feature_player_dict
@@ -36,17 +41,19 @@ def get_players_with_demographic_information(player_list):
     """
     player_with_demographic_information_list = []
 
+    # loop through the list of player
     for player in tqdm(player_list):
         # gets the demographic features for the player
         demographic_feature_player = get_demographic_information(player)
 
         # unique record in the Lahman databaes
         if demographic_feature_player is not None:
+            # add that player to the list of players with demographic information
             player_with_demographic_information_list.append(player)
 
     return player_with_demographic_information_list
 
 if __name__ == "__main__":
-    # get the demographic information of Snell, Blake
+    # TEST: get the demographic information of Snell, Blake
     player = "Snell, Blake"
     print(get_demographic_information(player))

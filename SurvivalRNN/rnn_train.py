@@ -123,13 +123,13 @@ def train_rnn_discrete_model(training_season, num_epochs, lr, input_dim, output_
     """
         Train the Survival RNN model with the discrete survival loss
         :param training_season: the season the survival rnn model is trained on
-        :param evaluation_season: the season the survival rnn model is evaluated on
-        :num_epochs: the number of epochs to train for
-        :lr: the learning rate
-        :output_file_model: the output file to save the model to
-        :output_file_loss_history: the output file to save the loss history to
-        :include_min_max: whether to include the minimum and maximum values for the features
-        :more_features: whether to include more features to improve the model potentially
+        :param num_epochs: the number of epochs to train for
+        :param lr: the learning rate
+        :param output_file_model: the output file to save the model to
+        :param output_file_loss_history: the output file to save the loss history to
+        :param w1: the weight w1 for the Discrete survival loss
+        :param w2: the weight w2 for the Discrete Survival Loss
+        :param time_invariant: whether we are using the time-invariant or time-varying RNN model
     """
 
     # prepare the time-varying input for RNN training for the training season
@@ -138,10 +138,10 @@ def train_rnn_discrete_model(training_season, num_epochs, lr, input_dim, output_
     else:
         X_train, T_train, E_train = prepare_time_varying_input_for_rnn(training_season)
 
-    # create the dataset for train and evaluate
+    # create the dataset for training season
     train_dataset = PitcherInjuryDataset(X_train, T_train, E_train)
 
-    # create the dataloaders for train and evaluate
+    # create the dataloaders for training season
     train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True ,collate_fn=collate_fn)
 
     # ------------------------------
@@ -149,13 +149,12 @@ def train_rnn_discrete_model(training_season, num_epochs, lr, input_dim, output_
     # ------------------------------
     # Increase model capacity and train longer for near-perfect fitting.
     if not os.path.exists(output_file_model):
-        # initialize the survival RNN model
+        # initialize the survival RNN model with Discrete Survival Loss
         model = RNNDiscreteSurvival(input_dim, hidden_dim=32, num_layers=2,
                                     fc_hidden_dim1=45, fc_hidden_dim2=40,
                                     fc_hidden_dim3=35).to(device)
-        #criterion = nn.BCELoss(reduction='none')  # We apply masking manually.
 
-        # set the optimizer and the learning rate scheduler
+        # set the Adam optimizer and the Exponential learning rate scheduler with gamma = 0.99
         optimizer = optim.Adam(model.parameters(), lr)
         scheduler = ExponentialLR(optimizer, gamma=0.99)
 
@@ -189,7 +188,7 @@ def train_rnn_discrete_model(training_season, num_epochs, lr, input_dim, output_
                 batch_size_actual = features.size()[0]
                 batch_loss = 0.0
 
-                # Compute loss per sample
+                # Compute loss per sample batch
                 for i in range(batch_size_actual):
                     sample_hazard = hazard[i]  # (seq_length,)
                     sample_target = target[i]  # (seq_length,)
@@ -198,37 +197,34 @@ def train_rnn_discrete_model(training_season, num_epochs, lr, input_dim, output_
                     if sample_target.sum() > 0:  # Event observed
                         # Find the event time (first occurrence of 1)
                         event_time = int(torch.argmax(sample_target).item())
-                        # Compute cumulative log survival before event
+
+                        # Compute cumulative log survival before event by the produce of the
                         survival_log = torch.sum(
-                            torch.log(1 - sample_hazard[:event_time] + eps)) if event_time > 0 else 0.0
+                            torch.log(1 - sample_hazard[:event_time + 1] + eps)) if event_time > 0 else 0.0
+
                         # Log likelihood at the event time
                         event_log = torch.log(sample_hazard[event_time] + eps)
                         sample_loss = - (w2* event_log + w1* survival_log)
                     else:
-                        # For censored instance, sum survival logs over valid intervals
+                        # For censored instance, sum survival logs over valid intervals (no event here)
                         sample_loss = - w1 * torch.sum(torch.log(1 - sample_hazard[:valid_intervals] + eps))
 
                     batch_loss += sample_loss
 
-
                 # why do we need to divide by batch_size_actual
                 batch_loss = batch_loss / batch_size_actual
 
+                # compute the back propagation
                 batch_loss.backward()
                 optimizer.step()
                 epoch_loss += batch_loss.item()
 
-                #loss = criterion(hazard[:,:num_intervals], target)
-                #loss = loss * mask  # Only consider intervals up to the observed time.
-                #loss = loss.mean()
-                #loss.backward()
-                #optimizer.step()
-                #epoch_loss += loss.item()
+            # update the scheduler every epoch
             scheduler.step()
 
             loss_history.append(epoch_loss)
-            #if (epoch + 1) % 10 == 0:
             print(f"Epoch {epoch + 1}/{num_epochs}, Loss: {epoch_loss:.4f}")
 
+        # save the trained RNN model and the loss history
         torch.save(model, output_file_model)
         np.savetxt(output_file_loss_history, loss_history)

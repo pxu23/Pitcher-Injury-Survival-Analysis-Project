@@ -1,13 +1,11 @@
 import warnings
 import os
-from datetime import datetime
-
+import datetime
 import numpy as np
 import pandas as pd
 # the time varying nature of the games between the two injury dates for a pitcher in the followup period
 warnings.filterwarnings('ignore')
 from demographics_2025_pitchers import get_demographic_information_2025_pitcher
-from Survival_Dataframe_Construction.injury_data_utils import convert_date_string_to_datetime
 
 def convert_injury_date_string_to_datetime(injury_date):
     splitted_date = injury_date.split('/')
@@ -28,7 +26,7 @@ def create_time_varying_survival_dataframe_2025_game_level_for_pitcher(first_nam
 
     game_level_statcast_data_2025 = game_level_statcast_data[game_level_statcast_data['game_date'] >= '2025-01-01']
 
-    game_level_statcast_data_2025['game_date'] = game_level_statcast_data_2025['game_date'].apply(convert_date_string_to_datetime)
+    game_level_statcast_data_2025['game_date'] = game_level_statcast_data_2025['game_date'].apply(convert_injury_date_string_to_datetime)
 
     # get the injury dataframe corresponding to the 2025 pitcher
     injury_df_file = f"Injury_Data_2025_Pitchers/injury_data_{lower_first_name}_{lower_last_name}_preprocessed.xlsx"
@@ -113,7 +111,6 @@ if __name__=="__main__":
                     ("Jacob", "deGrom"), ("Logan", "Gilbert"), ("Logan", "Webb"),
                     ("Max", "Fried"), ("Spencer", "Strider"), ("Tarik", "Skubal"),
                     ("Yoshinobu", "Yamamoto"), ("Zack", "Wheeler"), ("Paul", "Skenes"),
-                    ("Kevin", "Gausman"), ("Shane", "McClanahan")]
-
+                    ("Kevin", "Gausman"), ("Shane", "McClanahan"), ("Pablo", "Lopez")]
     for first_name, last_name in pitcher_list:
         create_time_varying_survival_dataframe_2025_game_level_for_pitcher(first_name, last_name)
